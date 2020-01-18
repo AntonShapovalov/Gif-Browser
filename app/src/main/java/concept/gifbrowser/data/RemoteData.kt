@@ -16,7 +16,7 @@ class RemoteData @Inject constructor() {
 
     fun getImages(
         apiKey: String = _apiKey,
-        limit: Int = 25,
+        limit: Int = ITEMS_LIMIT,
         offset: Int = 0
     ): Observable<List<GifEntry>> = apiService
         .getImages(apiKey, limit, offset)

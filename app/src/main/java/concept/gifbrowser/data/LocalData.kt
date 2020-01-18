@@ -25,15 +25,33 @@ class LocalData @Inject constructor() {
     private val tokenType = object : TypeToken<List<ImageItem>>() {}.type
     private val expirationTime = TimeUnit.MINUTES.toMillis(5)
 
-    fun saveImages(list: List<ImageItem>) {
-        val value = gson.toJson(list, tokenType)
+    fun saveRemoteData(list: List<GifEntry>) {
+        val items = list.map {
+            ImageItem(it.images.preview_gif.url, it.images.original.url)
+        }
+        val values = getAllImages().toMutableList()
+        values.addAll(items)
+        val value = gson.toJson(values, tokenType)
         preferences.edit().apply {
             putString(IMAGES_KEY, value)
             putLong(UPDATED_KEY, System.currentTimeMillis())
         }.apply()
     }
 
-    fun getImages(): List<ImageItem> {
+    fun getImages(limit: Int = ITEMS_LIMIT, offset: Int = 0): List<ImageItem> {
+        val start = limit * offset
+        val end = start + limit
+        val items = getAllImages()
+        val size = items.size
+        return when {
+            size == 0 -> items
+            start >= size -> emptyList()
+            end >= size -> items.subList(start, size)
+            else -> items.subList(start, end)
+        }
+    }
+
+    private fun getAllImages(): List<ImageItem> {
         val value = preferences.getString(IMAGES_KEY, null)
         return value?.let { gson.fromJson<List<ImageItem>>(it, tokenType) } ?: emptyList()
     }
