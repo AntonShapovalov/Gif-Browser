@@ -34,15 +34,15 @@ class LocalDataAndroidTest {
     @Test
     fun isCacheExpired() {
         Assert.assertTrue(localData.isCacheExpired())
-        localData.saveRemoteData(getRemoteImages())
+        localData.saveRemoteData(remoteList())
         Assert.assertFalse(localData.isCacheExpired())
     }
 
     @Test
     fun saveRemoteData() {
-        localData.saveRemoteData(getRemoteImages())
+        localData.saveRemoteData(remoteList())
         val savedArray = localData.getImages().toTypedArray()
-        val testArray = getLocalImages().toTypedArray()
+        val testArray = localList().toTypedArray()
         Assert.assertTrue(savedArray.contentEquals(testArray))
     }
 
@@ -51,19 +51,19 @@ class LocalDataAndroidTest {
         // initial array is empty
         Assert.assertTrue(localData.getImages().isEmpty())
         // save first 25 items
-        localData.saveRemoteData(getRemoteImages(0, 24))
+        localData.saveRemoteData(remoteList(0, 24))
         var savedItems = localData.getImages(limit = 25, offset = 0)
         Assert.assertEquals(25, savedItems.size)
         // try to get items more then exist in cache
         savedItems = localData.getImages(limit = 25, offset = 1)
         Assert.assertTrue(savedItems.isEmpty())
         // save next 10 items
-        localData.saveRemoteData(getRemoteImages(25, 34))
+        localData.saveRemoteData(remoteList(25, 34))
         savedItems = localData.getImages(limit = 25, offset = 1)
         Assert.assertEquals(10, savedItems.size)
     }
 
-    private fun getRemoteImages(start: Int = 0, end: Int = 24): List<GifEntry> {
+    private fun remoteList(start: Int = 0, end: Int = 24): List<GifEntry> {
         val items = ArrayList<GifEntry>()
         (start..end).forEach { i ->
             val pImage = GifImage("p$i")
@@ -74,7 +74,7 @@ class LocalDataAndroidTest {
         return items
     }
 
-    private fun getLocalImages(start: Int = 0, end: Int = 24): List<ImageItem> {
+    private fun localList(start: Int = 0, end: Int = 24): List<ImageItem> {
         val items = ArrayList<ImageItem>()
         (start..end).forEach { i ->
             val item = ImageItem("p$i", "o$i")
