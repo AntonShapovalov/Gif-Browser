@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">GifBrowser</string>
+    <string name="app_name">Gif Browser</string>
+    <string name="fragment_grid">Trending Gifs</string>
+    <string name="fragment_full_screen">Full Screen</string>
+    <string name="image_description">Giphy trending image</string>
+    <string name="text_retry">Retry</string>
 </resources>

@@ -19,7 +19,7 @@ class ImageRepository @Inject constructor() {
         .switchIfEmpty(Observable.defer { remoteImages(page) })
 
     private fun localImages(page: Int): Observable<List<ImageItem>> = Observable
-        .just(localData.getImages(offset = page))
+        .fromCallable { localData.getImages(offset = page) }
         .filter { it.isNotEmpty() && (page > 0 || !localData.isCacheExpired()) }
 
     private fun remoteImages(page: Int): Observable<List<ImageItem>> = remoteData
