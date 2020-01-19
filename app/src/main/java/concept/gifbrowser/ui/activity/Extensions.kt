@@ -1,25 +1,25 @@
 package concept.gifbrowser.ui.activity
 
-import android.view.View
-import androidx.fragment.app.Fragment
+import android.content.res.Resources
+import android.graphics.Rect
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import concept.gifbrowser.R
 import concept.gifbrowser.app.GBApplication
 import concept.gifbrowser.di.AppComponent
 
 val FragmentActivity.appComponent: AppComponent get() = (application as GBApplication).appComponent
 
-fun View.show() = let { visibility = View.VISIBLE }
-
-fun View.gone() = let { visibility = View.GONE }
-
-fun View.showOrHide(isVisible: Boolean) {
-    visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
+fun Resources.getGridSpanCount(): Int {
+    val imageSize = getDimensionPixelSize(R.dimen.image_size)
+    return displayMetrics.widthPixels / (imageSize + 2 * getGridItemOffset())
 }
 
-fun Fragment.getGridSpanCount(): Int {
-    val imageSize = resources.getDimensionPixelSize(R.dimen.image_size)
-    val imageMargin = resources.getDimensionPixelOffset(R.dimen.image_margin)
-    return resources.displayMetrics.widthPixels / (imageSize + 2 * imageMargin)
+fun Resources.getGridItemOffset(): Int = getDimensionPixelOffset(R.dimen.image_offset)
 
+class GridItemDecorator(resources: Resources) : RecyclerView.ItemDecoration() {
+    private val offset = resources.getGridItemOffset()
+    override fun getItemOffsets(outRect: Rect, itemPosition: Int, parent: RecyclerView) {
+        outRect.set(offset, offset, offset, offset)
+    }
 }

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
+    android:padding="@dimen/image_offset"
     tools:context=".ui.activity.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView

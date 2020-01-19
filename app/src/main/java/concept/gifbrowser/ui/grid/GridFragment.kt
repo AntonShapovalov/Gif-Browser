@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import concept.gifbrowser.R
+import concept.gifbrowser.ui.activity.GridItemDecorator
 import concept.gifbrowser.ui.activity.getGridSpanCount
 import kotlinx.android.synthetic.main.fragment_grid.*
 
@@ -27,9 +28,10 @@ class GridFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val layoutManager = GridLayoutManager(context, getGridSpanCount())
+        val layoutManager = GridLayoutManager(context, resources.getGridSpanCount())
         layoutManager.isSmoothScrollbarEnabled = true
         imagesGrid.layoutManager = layoutManager
+        imagesGrid.addItemDecoration(GridItemDecorator(resources))
         imagesGrid.adapter = adapter
     }
 
