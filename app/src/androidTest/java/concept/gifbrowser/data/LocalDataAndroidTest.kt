@@ -77,7 +77,7 @@ class LocalDataAndroidTest {
     private fun localList(start: Int = 0, end: Int = 24): List<ImageItem> {
         val items = ArrayList<ImageItem>()
         (start..end).forEach { i ->
-            val item = ImageItem("p$i", "o$i")
+            val item = ImageItem(i.toString(), "p$i", "o$i")
             items.add(item)
         }
         return items

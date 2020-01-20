@@ -2,6 +2,7 @@ package concept.gifbrowser.ui.activity
 
 import android.content.res.Resources
 import android.graphics.Rect
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import concept.gifbrowser.R
@@ -23,3 +24,8 @@ class GridItemDecorator(resources: Resources) : RecyclerView.ItemDecoration() {
         outRect.set(offset, offset, offset, offset)
     }
 }
+
+fun View.show() = let { visibility = View.VISIBLE }
+
+fun View.gone() = let { visibility = View.GONE }
+

@@ -64,7 +64,7 @@ class ImageRepositoryTest {
     }
 
     private fun localList(): List<ImageItem> = listOf(
-        ImageItem("p1", "o1")
+        ImageItem("1","p1", "o1")
     )
 
 }

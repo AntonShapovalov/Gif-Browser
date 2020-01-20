@@ -3,6 +3,7 @@ package concept.gifbrowser.data
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,7 +28,8 @@ class LocalData @Inject constructor() {
 
     fun saveRemoteData(list: List<GifEntry>) {
         val items = list.map {
-            ImageItem(it.images.preview_gif.url, it.images.original.url)
+            Timber.d("id=%s", it.id)
+            ImageItem(it.id, it.images.preview_gif.url, it.images.original.url)
         }
         val values = getAllImages().toMutableList()
         values.addAll(items)
