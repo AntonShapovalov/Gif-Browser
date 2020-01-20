@@ -15,16 +15,19 @@ class ImageRepository @Inject constructor() {
     @Inject lateinit var localData: LocalData
     @Inject lateinit var remoteData: RemoteData
 
-    fun getImages(page: Int): Observable<List<ImageItem>> = localImages(page)
-        .switchIfEmpty(Observable.defer { remoteImages(page) })
+    /**
+     * Get images from local cache or from remote API starting from position [offset]
+     */
+    fun getImages(offset: Int, limit: Int = ITEMS_LIMIT): Observable<List<ImageItem>> =
+        localImages(offset, limit).switchIfEmpty(Observable.defer { remoteImages(offset, limit) })
 
-    private fun localImages(page: Int): Observable<List<ImageItem>> = Observable
-        .fromCallable { localData.getImages(offset = page) }
-        .filter { it.isNotEmpty() && (page > 0 || !localData.isCacheExpired()) }
+    private fun localImages(position: Int, count: Int): Observable<List<ImageItem>> = Observable
+        .fromCallable { localData.getImages(offset = position, limit = count) }
+        .filter { it.isNotEmpty() && (position > 0 || !localData.isCacheExpired()) }
 
-    private fun remoteImages(page: Int): Observable<List<ImageItem>> = remoteData
-        .getImages(offset = page)
+    private fun remoteImages(position: Int, count: Int): Observable<List<ImageItem>> = remoteData
+        .getImages(offset = position, limit = count)
         .doOnNext { localData.saveRemoteData(it) }
-        .map { localData.getImages(offset = page) }
+        .map { localData.getImages(offset = position, limit = count) }
 
 }

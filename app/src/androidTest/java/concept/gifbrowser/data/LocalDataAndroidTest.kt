@@ -54,12 +54,15 @@ class LocalDataAndroidTest {
         localData.saveRemoteData(remoteList(0, 24))
         var savedItems = localData.getImages(limit = 25, offset = 0)
         Assert.assertEquals(25, savedItems.size)
+        // try to get items from 10 to 25
+        savedItems = localData.getImages(limit = 15, offset = 10)
+        Assert.assertEquals(15, savedItems.size)
         // try to get items more then exist in cache
-        savedItems = localData.getImages(limit = 25, offset = 1)
+        savedItems = localData.getImages(limit = 25, offset = 25)
         Assert.assertTrue(savedItems.isEmpty())
         // save next 10 items
         localData.saveRemoteData(remoteList(25, 34))
-        savedItems = localData.getImages(limit = 25, offset = 1)
+        savedItems = localData.getImages(limit = 25, offset = 25)
         Assert.assertEquals(10, savedItems.size)
     }
 

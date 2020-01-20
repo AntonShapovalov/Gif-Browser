@@ -41,15 +41,14 @@ class LocalData @Inject constructor() {
     }
 
     fun getImages(limit: Int = ITEMS_LIMIT, offset: Int = 0): List<ImageItem> {
-        val start = limit * offset
-        val end = start + limit
+        val end = offset + limit
         val items = getAllImages()
         val size = items.size
         return when {
             size == 0 -> items
-            start >= size -> emptyList()
-            end >= size -> items.subList(start, size)
-            else -> items.subList(start, end)
+            offset >= size -> emptyList()
+            end >= size -> items.subList(offset, size)
+            else -> items.subList(offset, end)
         }
     }
 

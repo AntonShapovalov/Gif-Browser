@@ -20,6 +20,6 @@ class RemoteData @Inject constructor() {
         offset: Int = 0
     ): Observable<List<GifEntry>> = apiService
         .getImages(apiKey, limit, offset)
-        .map { if (it.isSuccessful) it.body()?.data else throw RuntimeException("Unable to get Repositories info") }
+        .map { if (it.isSuccessful) it.body()?.data else throw RuntimeException("Unable to get data!") }
 
 }

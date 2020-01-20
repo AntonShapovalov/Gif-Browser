@@ -16,6 +16,8 @@ class RemoteDataTest {
 
     @Inject lateinit var remoteModel: RemoteData
 
+    private val set = HashSet<String>()
+
     @Before
     fun setUp() = DaggerApiTestComponent.builder()
         .utilsModule(UtilsModule())
@@ -24,15 +26,26 @@ class RemoteDataTest {
         .inject(this)
 
     @Test
-    fun getImages() {
+    fun getImagesOffset0() {
+        getImages(0)
+    }
+
+    @Test
+    fun getImagesOffset25() {
+        getImages(25)
+    }
+
+    private fun getImages(_offset:Int) {
         val testObserver = TestObserver<List<GifEntry>>()
-        remoteModel.getImages(limit = 25, offset = 0)
+        remoteModel.getImages(limit = 25, offset = _offset)
             .doOnNext { list ->
                 Assert.assertTrue(list.isNotEmpty())
                 list.forEach {
-                    println(it)
-                    Assert.assertNotNull(it.images.preview_gif.url)
-                    Assert.assertNotNull(it.images.original.url)
+                    println(it.id)
+                    Assert.assertFalse(set.contains(it.id))
+                    set.add(it.id)
+                    Assert.assertNotNull(it.images.preview_gif)
+                    Assert.assertNotNull(it.images.original)
                 }
             }
             .subscribe(testObserver)

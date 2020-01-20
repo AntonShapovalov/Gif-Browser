@@ -38,8 +38,10 @@ class PageDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, ImageItem>
     ) {
-        val page = 0 // TODO: load several pages on first load
-        val d = repository.getImages(page)
+        val page = 0
+        // initially load 2 pages from API and save to local cache, but return only first page to UI
+        val d = repository.getImages(offset = 0, limit = ITEMS_LIMIT * 2)
+            .switchMap { repository.getImages(offset = 0) }
             .doOnSubscribe { state.postValue(StateProgress) }
             .subscribe({
                 state.postValue(ImagesLoaded)
@@ -53,8 +55,8 @@ class PageDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, ImageItem>) {
-        val page = params.key // next page, start from 2
-        val d = repository.getImages(page)
+        val page = params.key // next page, start from 1
+        val d = repository.getImages(offset = ITEMS_LIMIT * page)
             .doOnSubscribe { state.postValue(StateProgress) }
             .subscribe({
                 state.postValue(ImagesLoaded)
