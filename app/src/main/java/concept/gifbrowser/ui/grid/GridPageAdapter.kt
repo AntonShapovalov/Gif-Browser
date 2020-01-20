@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,7 @@ import timber.log.Timber
  * List adapter for [GridFragment]
  */
 class GridPageAdapter(
-    private val fragment: GridFragment,
+    private val fragment: Fragment,
     private val onItemClick: (String) -> Unit
 ) : PagedListAdapter<ImageItem, GridPageAdapter.ViewHolder>(
     GIFS_COMPARATOR
