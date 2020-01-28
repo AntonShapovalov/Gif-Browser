@@ -44,6 +44,12 @@ class LocalDataAndroidTest {
         val savedArray = localData.getImages().toTypedArray()
         val testArray = localList().toTypedArray()
         Assert.assertTrue(savedArray.contentEquals(testArray))
+        // plus 25 items
+        localData.saveRemoteData(remoteList())
+        Assert.assertEquals(50, localData.getAllImages().size)
+        // clear cache if is expired
+        localData.saveRemoteData(remoteList(), isCacheExpired = true)
+        Assert.assertEquals(25, localData.getAllImages().size)
     }
 
     @Test

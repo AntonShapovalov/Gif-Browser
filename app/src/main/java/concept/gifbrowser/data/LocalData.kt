@@ -26,13 +26,13 @@ class LocalData @Inject constructor() {
     private val tokenType = object : TypeToken<List<ImageItem>>() {}.type
     private val expirationTime = TimeUnit.MINUTES.toMillis(5)
 
-    fun saveRemoteData(list: List<GifEntry>) {
+    fun saveRemoteData(list: List<GifEntry>, isCacheExpired: Boolean = false) {
         val items = list.map {
             Timber.d("id=%s", it.id)
             ImageItem(it.id, it.images.preview_gif.url, it.images.original.url)
         }
-        val values = getAllImages().toMutableList()
-        values.addAll(items)
+        val values = if (isCacheExpired) items
+        else getAllImages().toMutableList().apply { addAll(items) }
         val value = gson.toJson(values, tokenType)
         preferences.edit().apply {
             putString(IMAGES_KEY, value)
@@ -52,15 +52,15 @@ class LocalData @Inject constructor() {
         }
     }
 
-    private fun getAllImages(): List<ImageItem> {
-        val value = preferences.getString(IMAGES_KEY, null)
-        return value?.let { gson.fromJson<List<ImageItem>>(it, tokenType) } ?: emptyList()
-    }
-
     fun isCacheExpired(): Boolean {
         val currentTime = System.currentTimeMillis()
         val updatedTime = preferences.getLong(UPDATED_KEY, 0L)
         return abs(currentTime - updatedTime) > expirationTime
+    }
+
+    internal fun getAllImages(): List<ImageItem> {
+        val value = preferences.getString(IMAGES_KEY, null)
+        return value?.let { gson.fromJson<List<ImageItem>>(it, tokenType) } ?: emptyList()
     }
 
     internal fun clear() {
