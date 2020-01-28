@@ -22,3 +22,4 @@ Please use [app-release.apk](./app/release/) file
  * [RxJava](https://github.com/ReactiveX/RxJava) - simple way to manage data chains
  * [Dagger](https://google.github.io/dagger/) - dependency injection framework
  * [Retrofit](http://square.github.io/retrofit/) - to perform API call
+ * [Glide](https://bumptech.github.io/glide/) - images loading library with cache possibility
