@@ -1,6 +1,6 @@
 # Giphy Browser
 
-#### Android application concept to display Giphy trending images with paging loading and offline work support
+#### Android application concept to display Giphy trending images with paging loading and offline work support.
 
 Project demonstrates how to use AndroidX, Kotlin, Navigation Component, Paging Component, MVVM, LiveData, Dagger, RxJava and Retrofit to get remote data and save it to local cache.
 For simplification, shared preferences are used like local cache. For real scenario Db storage (Room, GreenDao) is preferable.
