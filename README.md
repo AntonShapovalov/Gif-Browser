@@ -12,7 +12,7 @@ For simplification, shared preferences are used like local cache. For real scena
 
 #### How to install
 
-Please use [app-release.apk](./app/release/) file
+Please use [app-release.apk](./app/release/) file.
 
 #### Used language and libraries
  * [Kotlin](https://kotlinlang.org/docs/tutorials/kotlin-android.html) - primary project language
