@@ -5,9 +5,9 @@ For simplification, shared preferences are used like a local cache. For real sce
 
 #### Structure
 
-Application conains two screens:
-1. Grid screen - shows grid of trending gifs.
-2. Full screen - displays full screen image.
+Application contains two screens:
+1. Grid screen - shows the grid of trending gifs.
+2. Full screen - displays the full screen image.
 
 #### How to install
 
